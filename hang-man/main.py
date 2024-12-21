@@ -24,6 +24,10 @@ while "_" in displayed_word:
         lives -= 1
         print(f"Wrong character! Lives left: {lives}")
         if lives == 0:
+            print("|-o")
+            print("| Y")
+            print("| M")
+            print("|__")
             print("You lost! The word was", word_to_guess)
             break
         continue
