@@ -1,4 +1,5 @@
 from colorama import Back, Fore, Style, init
+import argparse
 
 # Initialize colorama
 init(autoreset=True)
@@ -60,3 +61,28 @@ board[7][0]["piece"] = "R"  # Black rook
 board[7][1]["piece"] = "N"  # Black knight
 
 print_board()
+
+
+def move_piece(current, target):
+    piece = str()
+    # print(board)
+    for i in range(ranks):
+        for j in range(files):
+            if board[i][j]["field"] == current:
+                piece = board[i][j]["piece"]
+                board[i][j]["piece"] = ""
+
+    for i in range(ranks):
+        for j in range(files):
+            if board[i][j]["field"] == target:
+                board[i][j]["piece"] = piece
+
+
+while True:
+    move = input("Input your move. Like this b1xc3: ")
+    moves = move.split("x")
+
+    print(moves[0])
+    move_piece(moves[0].upper(), moves[1].upper())
+
+    print_board()
