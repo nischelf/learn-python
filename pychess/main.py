@@ -1,5 +1,7 @@
 from colorama import Back, Fore, Style, init
-import argparse
+import fen
+
+FEN = fen.FEN()
 
 # Initialize colorama
 init(autoreset=True)
@@ -46,8 +48,7 @@ def print_board():
                 piece_color = ""
 
             # Print the cell with the piece or empty space
-            print(cell_color + piece_color +
-                  f" {piece} " + Style.RESET_ALL, end="")
+            print(cell_color + piece_color + f" {piece} " + Style.RESET_ALL, end="")
         print()  # End of row
 
     # Print column labels
@@ -70,7 +71,7 @@ def move_piece(current, target):
         for j in range(files):
             if board[i][j]["field"] == current:
                 piece = board[i][j]["piece"]
-                board[i][j]["piece"] = ""
+                board[i][j]["piece"] = None
 
     for i in range(ranks):
         for j in range(files):
@@ -82,7 +83,11 @@ while True:
     move = input("Input your move. Like this b1xc3: ")
     moves = move.split("x")
 
-    print(moves[0])
+    if moves[0] == moves[1]:
+        print("Invalid move")
+        continue
+
     move_piece(moves[0].upper(), moves[1].upper())
 
     print_board()
+    FEN.export(board)
