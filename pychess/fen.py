@@ -1,11 +1,10 @@
 # FEN Rules: https://www.chess.com/terms/fen-chess
-# TODO: Castle Rights, En Passant, Halfmove Clock, Fullmove Number
 class FEN:
     def read(self, fen_code):
         print(fen_code)
         return fen_code
 
-    def export(self, board, whites_turn):
+    def export(self, board, whites_turn, fullmove_number):
         code = []
         count = 0
 
@@ -38,4 +37,7 @@ class FEN:
             fen_str += " w"
         else:
             fen_str += " b"
+
+        # TODO: Castle Rights, En Passant, Halfmove Clock
+        fen_str += " - - 0 " + fullmove_number
         return fen_str

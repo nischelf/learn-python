@@ -82,6 +82,7 @@ def move_piece(current, target):
 
 
 whites_turn = True
+move_number = 0
 
 while True:
     if whites_turn:
@@ -99,6 +100,7 @@ while True:
         continue
 
     move_piece(moves[0].upper(), moves[1].upper())
+    move_number += 1
 
     print_board()
-    print(FEN.export(board, whites_turn))
+    print(FEN.export(board, whites_turn, str(move_number / 2 + 1)[0]))
