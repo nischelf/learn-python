@@ -56,10 +56,12 @@ def print_board():
 
 
 # Place some example pieces
-board[0][0]["piece"] = "r"  # White rook
-board[0][1]["piece"] = "n"  # White knight
-board[7][0]["piece"] = "R"  # Black rook
-board[7][1]["piece"] = "N"  # Black knight
+board[0][4]["piece"] = "k"  # Black King
+board[0][0]["piece"] = "r"  # Black rook
+board[0][1]["piece"] = "n"  # Black knight
+board[7][4]["piece"] = "K"  # White King
+board[7][0]["piece"] = "R"  # White rook
+board[7][1]["piece"] = "N"  # White knight
 
 print_board()
 
@@ -79,7 +81,16 @@ def move_piece(current, target):
                 board[i][j]["piece"] = piece
 
 
+whites_turn = True
+
 while True:
+    if whites_turn:
+        print("White to move")
+        whites_turn = False
+    else:
+        print("Black to move")
+        whites_turn = True
+
     move = input("Input your move. Like this b1xc3: ")
     moves = move.split("x")
 
@@ -90,4 +101,4 @@ while True:
     move_piece(moves[0].upper(), moves[1].upper())
 
     print_board()
-    FEN.export(board)
+    print(FEN.export(board, whites_turn))
