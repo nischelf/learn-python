@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from colorama import Back, Fore, Style, init
 import fen
 
@@ -37,31 +38,33 @@ def print_board():
                 cell_color = Back.BLACK
 
             # Get the piece or empty space
-            piece = board[i][j]["piece"] or " "
+            piece = board[i][j]["piece"]
+
+            if piece is None:
+                piece = " "
+
+            piece_name = piece["name"] if isinstance(piece, dict) else piece
 
             # Apply color to the piece
-            if piece in white_pieces:
+            if piece_name in white_pieces:
                 piece_color = Fore.BLUE
-            elif piece in black_pieces:
+            elif piece_name in black_pieces:
                 piece_color = Fore.RED
             else:
                 piece_color = ""
 
             # Print the cell with the piece or empty space
-            print(cell_color + piece_color + f" {piece} " + Style.RESET_ALL, end="")
+            print(
+                cell_color + piece_color + f" {piece_name} " + Style.RESET_ALL, end=""
+            )
         print()  # End of row
 
     # Print column labels
     print("   " + "  ".join([chr(65 + i) for i in range(files)]))  # A-H
 
 
-# Place some example pieces
-board[0][4]["piece"] = "k"  # Black King
-board[0][0]["piece"] = "r"  # Black rook
-board[0][1]["piece"] = "n"  # Black knight
-board[7][4]["piece"] = "K"  # White King
-board[7][0]["piece"] = "R"  # White rook
-board[7][1]["piece"] = "N"  # White knight
+# Setup standard position via FEN
+board = FEN.read("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", board)
 
 print_board()
 
@@ -79,6 +82,7 @@ def move_piece(current, target):
         for j in range(files):
             if board[i][j]["field"] == target:
                 board[i][j]["piece"] = piece
+                board[i][j]["piece"]["moved"] = True
 
 
 whites_turn = True

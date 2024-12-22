@@ -1,8 +1,32 @@
+import pieces
+
+create_piece = pieces.create_piece
+
 # FEN Rules: https://www.chess.com/terms/fen-chess
+
+
 class FEN:
-    def read(self, fen_code):
-        print(fen_code)
-        return fen_code
+    def read(self, fen_code, board):
+        # TODO: pass data castle rights
+        # fen_data = fen_code.split(" ")
+        pieces_on_Board = fen_code.split(" ")[0]
+        pieces_on_row = pieces_on_Board.split("/")
+        # print(type(pieces_on_row))
+        print(pieces_on_row)
+        for row_idx, row in enumerate(pieces_on_row):
+            col_idx = 0
+            for char in row:
+                if char.isdigit():
+                    # Empty squares
+                    col_idx += int(char)
+                elif char.isalpha():
+                    # Piece placement
+                    if char == "k":
+                        board[row_idx][col_idx]["piece"] = create_piece(char)
+                    else:
+                        board[row_idx][col_idx]["piece"] = create_piece(char)
+                    col_idx += 1
+        return board
 
     def export(self, board, whites_turn, fullmove_number):
         code = []
@@ -21,7 +45,7 @@ class FEN:
                     if count > 0:
                         row.append(count)
                         count = 0
-                    row.append(board[i][j]["piece"])
+                    row.append(board[i][j]["piece"]["name"])
             code.append(row)
 
         # print(code)
